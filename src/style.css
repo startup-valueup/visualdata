@@ -1,0 +1,169 @@
+/* 레거시(v1) coffee_dashboard.html <style> 이식본. 값은 레거시와 동일하게 유지한다. */
+:root{
+  --bg: #17120E;
+  --panel: #1E1811;
+  --panel-2: #241D14;
+  --line: #3A2E20;
+  --ink: #F1E8D9;
+  --ink-dim: #B7A78D;
+  --ink-faint: #82725C;
+  --gold: #C9A24A;
+  --gold-soft: rgba(201,162,74,0.16);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background: var(--bg);}
+body{
+  color: var(--ink);
+  font-family: 'Noto Sans KR', sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+::selection{ background: var(--gold-soft); color: var(--ink); }
+
+a{ color: var(--gold); }
+
+/* Framework 래퍼(#observablehq-center / #observablehq-main)는 폭·여백 없이 통과시키고,
+   본문 폭은 레거시처럼 .wrap(1120px) / .wide(1320px, 지도 섹션만)가 정한다. */
+#observablehq-center, #observablehq-main{ margin:0; max-width:none; }
+
+.wrap{ max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+.wide{ max-width: 1320px; margin: 0 auto; padding: 0 28px; }
+
+h1,h2,h3, .serif{ font-family: 'Noto Serif KR', serif; }
+
+/* ---------- Header / Hero ---------- */
+header.hero{
+  padding: 96px 0 56px;
+  border-bottom: 1px solid var(--line);
+}
+.kicker{
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.kicker::before{ content:"☕ "; }
+h1.title{
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 600;
+  margin: 0 0 22px;
+  max-width: 15ch;
+  line-height: 1.25;
+  color: var(--ink);
+}
+p.lede{
+  font-size: 17px;
+  color: var(--ink-dim);
+  max-width: 62ch;
+  margin: 0 0 40px;
+}
+.stat-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.stat{
+  flex: 1 1 160px;
+  padding: 22px 26px 22px 0;
+  border-right: 1px solid var(--line);
+}
+.stat:last-child{ border-right: none; }
+.stat .num{
+  font-family: 'Noto Serif KR', serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--ink);
+  display:block;
+}
+.stat .lbl{
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-top: 6px;
+  display:block;
+}
+
+/* ---------- Sections ---------- */
+/* 주의: 레거시와 같은 선택자 명세도를 유지한다. `section`(타입)보다 `.wrap`(클래스)의 padding 이 우선하므로
+   섹션은 실제로 padding: 0 28px 이고, header.hero 는 padding: 96px 0 56px 이 적용된다(레거시 그대로). */
+section{ padding: 64px 0; border-bottom: 1px solid var(--line); }
+section.nodivide{ border-bottom: none; }
+.sec-head{ margin-bottom: 8px; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+.sec-num{ color: var(--ink-faint); font-size: 13px; }
+h2.sec-title{
+  font-size: 25px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+p.sec-desc{
+  color: var(--ink-dim);
+  font-size: 14.5px;
+  max-width: 68ch;
+  margin: 0 0 28px;
+}
+
+.panel{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 22px 22px 12px;
+}
+.panel + .panel{ margin-top: 18px; }
+.grid-2{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 18px; }
+.grid-2 .panel{ margin-top:0; }
+/* grid 자식이 차트 폭 때문에 늘어나지 않도록(레거시 1fr 대비 안전장치) */
+.grid-2 > .panel{ min-width: 0; }
+@media (max-width: 880px){ .grid-2{ grid-template-columns: 1fr; } }
+
+.chart{ width: 100%; }
+.h-320{ height: 320px; } .h-380{ height: 380px; } .h-440{ height: 440px; }
+.h-560{ height: 560px; } .h-260{ height: 260px; }
+
+/* controls */
+.tabbar{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 16px; }
+.tab{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12.5px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-dim);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.tab:hover{ border-color: var(--gold); color: var(--ink); }
+.tab.active{ background: var(--gold); border-color: var(--gold); color: #1B1510; font-weight: 600; }
+
+select.select{
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--panel-2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.legend-swatches{ display:flex; flex-wrap:wrap; gap: 10px 16px; margin: 10px 0 4px; }
+.sw{ display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--ink-dim); cursor:pointer; user-select:none; }
+.sw .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+.sw.off{ opacity:.32; }
+
+table.rank{ width:100%; border-collapse: collapse; font-size: 13.5px; }
+table.rank th{ text-align:left; color: var(--ink-faint); font-weight: 500; font-size:12px; padding: 6px 8px; border-bottom: 1px solid var(--line);}
+table.rank td{ padding: 7px 8px; border-bottom: 1px solid rgba(58,46,32,0.5); color: var(--ink-dim); }
+table.rank td.num{ color: var(--ink); font-variant-numeric: tabular-nums; text-align:right; }
+table.rank tr:hover td{ color: var(--ink); }
+
+.note{ font-size: 12.5px; color: var(--ink-faint); margin-top: 14px; }
+/* v2 추가: 패널 밖(섹션 하단)에 놓는 "차트 읽는 법 / 데이터 한계" 안내 */
+.read-note{ font-size: 12.5px; color: var(--ink-faint); max-width: 90ch; margin: 14px 0 0; }
+.read-note strong{ color: var(--ink-dim); font-weight: 500; }
+
+footer{ padding: 48px 0 90px; }
+footer p{ font-size: 12.5px; color: var(--ink-faint); max-width: 70ch; }
+
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-thumb{ background: var(--line); border-radius: 6px; }
