@@ -1,0 +1,49 @@
+# GitHub Pages 배포 (공식 Actions 방식). main 푸시 또는 수동 실행 시 dist 를 배포한다.
+# 액션 버전은 2026-10 기준 각 저장소의 최신 안정 메이저 태그로 고정했다.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포가 겹치면 진행 중인 것은 끝내고 대기 중인 것만 교체한다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  OBSERVABLE_TELEMETRY_DISABLE: "true"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Framework / package.json 요구사항은 Node >=18. 로컬 검증에 쓴 22(LTS)로 맞춘다.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/configure-pages@v6
+      - run: npm ci
+      # npm:echarts 는 빌드 시 jsDelivr 에서 받아 자체 호스팅한다(러너는 접속 가능).
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
