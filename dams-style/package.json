@@ -1,0 +1,31 @@
+{
+  "name": "coffee-dams-style",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf src/.observablehq/cache",
+    "predev": "node scripts/bundle-deck.mjs",
+    "dev": "observable preview",
+    "prebuild": "node scripts/bundle-deck.mjs",
+    "build": "observable build",
+    "observable": "observable"
+  },
+  "dependencies": {
+    "@deck.gl/core": "~9.3.11",
+    "@deck.gl/layers": "~9.3.11",
+    "@loaders.gl/core": "^4.4.3",
+    "@luma.gl/core": "~9.3.5",
+    "@luma.gl/engine": "~9.3.5",
+    "@observablehq/framework": "^1.13.4",
+    "@observablehq/plot": "^0.6.17",
+    "d3": "^7.9.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.7",
+    "rimraf": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

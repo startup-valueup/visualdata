@@ -1,0 +1,6 @@
+.DS_Store
+dist/
+src/.observablehq/cache/
+node_modules/
+src/.observablehq/deploy.json
+src/components/vendor/
