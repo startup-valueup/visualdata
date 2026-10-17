@@ -1,4 +1,6 @@
-# GitHub Pages 배포 (공식 Actions 방식). main 푸시 또는 수동 실행 시 dist 를 배포한다.
+# GitHub Pages 배포 (공식 Actions 방식). main 푸시 또는 수동 실행 시 세 프로젝트를 각각 빌드해 합친 뒤 한 번에 배포한다.
+#   home/ -> /        coffee/ -> /coffee/        coffee-dams/ -> /coffee-dams/
+# 썸네일 캡처는 여기서 하지 않는다(커밋된 home/src/thumbs/*.webp 사용). 다시 만들려면 tools/README.md 참고.
 # 액션 버전은 2026-10 기준 각 저장소의 최신 안정 메이저 태그로 고정했다.
 name: Deploy to GitHub Pages
 
@@ -31,20 +33,37 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: |
-            package-lock.json
-            dams-style/package-lock.json
+            home/package-lock.json
+            coffee/package-lock.json
+            coffee-dams/package-lock.json
       - uses: actions/configure-pages@v6
-      - run: npm ci
-      # npm:echarts 는 빌드 시 jsDelivr 에서 받아 자체 호스팅한다(러너는 접속 가능).
-      - run: npm run build
-      # dams-style(us-dams 스타일 별도 버전)은 독립 프로젝트라 따로 빌드해 /dams-style/ 하위 경로에 합친다.
-      # (두 사이트 모두 상대 경로로 출력되므로 하위 경로 배포에 base 설정이 필요 없다.)
-      - run: npm ci --prefix dams-style
-      - run: npm run build --prefix dams-style
-      - run: mkdir -p dist/dams-style && cp -R dams-style/dist/. dist/dams-style/
+
+      # 각 프로젝트는 독립된 package.json/lock 을 가진다(npm workspaces 미사용).
+      - run: npm ci --prefix home
+      - run: npm ci --prefix coffee
+      - run: npm ci --prefix coffee-dams
+
+      - run: npm run build --prefix home
+      # coffee: npm:echarts 는 빌드 시 jsDelivr 에서 받아 자체 호스팅한다(러너는 접속 가능).
+      - run: npm run build --prefix coffee
+      # coffee-dams: prebuild 가 scripts/bundle-deck.mjs(esbuild)로 deck.gl 을 먼저 번들한다.
+      - run: npm run build --prefix coffee-dams
+
+      # 합치기: 세 사이트 모두 상대 경로로 출력되므로 하위 경로에 두어도 base 설정이 필요 없다.
+      - name: Compose site
+        run: |
+          mkdir -p _site/coffee _site/coffee-dams
+          cp -R home/dist/. _site/
+          cp -R coffee/dist/. _site/coffee/
+          cp -R coffee-dams/dist/. _site/coffee-dams/
+          test -f _site/index.html
+          test -f _site/coffee/index.html
+          test -f _site/coffee-dams/index.html
+          test -f _site/coffee-dams/brands/starbucks.html
+
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: dist
+          path: _site
 
   deploy:
     needs: build
