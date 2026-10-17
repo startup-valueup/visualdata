@@ -1,12 +1,14 @@
-# Dependencies / build output
+# Dependencies / build output (각 프로젝트: home/, coffee/, coffee-dams/, tools/)
 node_modules/
 dist/
+_site/
 .DS_Store
 .env
 .env.*
 
-# Observable Framework cache (npm: imports, data loader output)
-src/.observablehq/cache/
+# Observable Framework cache (npm: imports, data loader output) — 프로젝트 하위 어디서든
+**/.observablehq/cache/
+**/.observablehq/deploy.json
 
 # 원본 데이터·레거시 (커밋 금지 — CLAUDE.md 참고)
 data-raw/

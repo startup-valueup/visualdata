@@ -10,6 +10,12 @@ export default {
   pager: false,
   toc: false,
 
+  // 사이트 홈(/)으로 돌아가는 링크. Framework 는 header 의 상대 링크에서 앱 루트를 넘는 `../` 를 잘라 버리므로,
+  // 페이지가 불러온 정적 자산(`…/_observablehq/…`) 주소에서 이 앱의 루트를 찾아 그 한 단계 위(= 홈)로 연결한다.
+  // 하위 경로 배포(/<repo>/coffee-dams/)와 페이지 깊이(/brands/<slug>)에 상관없이 동작한다.
+  header: () =>
+    `<a id="home-link" href="../">← 홈</a><script>(function(){var l=[].map.call(document.querySelectorAll('link[rel=modulepreload]'),function(x){return x.href}).filter(function(h){return h.indexOf('/_observablehq/')>-1})[0];if(l)document.getElementById('home-link').href=new URL('../',l.slice(0,l.indexOf('/_observablehq/')+1)).href}())</script>`,
+
   // 브랜드 페이지는 파라미터 라우트(src/brands/[brand].md)이며, 생성할 경로를 여기서 나열한다.
   dynamicPaths: BRAND_PAGES.map((b) => `/brands/${b.slug}`),
   pages: [

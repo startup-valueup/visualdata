@@ -37,6 +37,7 @@ renderBrandLegend("brandLegend", coffee);
 ```
 
 <header class="hero wrap">
+<a class="home-link" href="../">← 홈</a>
 <div class="kicker">행정안전부 지방행정 인허가 데이터 기반 분석</div>
 <h1 class="title">대한민국 커피 프랜차이즈 지형도</h1>
 <p class="lede">전국 10개 주요 커피 브랜드의 인허가 이력 <span id="ledeTotalEpisodes">${fmtInt(hero.episodes)}</span>건을 정제해, 출점 속도와 폐업률, 상권 밀도, 그리고 스타벅스 인근 입지 효과까지 브랜드별 확장 전략의 차이를 데이터로 살펴봅니다.</p>

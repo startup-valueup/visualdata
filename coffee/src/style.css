@@ -35,7 +35,11 @@ h1,h2,h3, .serif{ font-family: 'Noto Serif KR', serif; }
 header.hero{
   padding: 96px 0 56px;
   border-bottom: 1px solid var(--line);
+  position: relative; /* 홈 링크를 레이아웃에 영향 없이 얹기 위함 */
 }
+/* 사이트 홈으로 돌아가는 링크 (허브 사이트 추가분). 본문 흐름에는 영향 없이 왼쪽 위에 놓는다. */
+.home-link{ position: absolute; top: 28px; left: 0; font-size: 13px; color: var(--ink-dim); text-decoration: none; }
+.home-link:hover{ color: var(--gold); }
 .kicker{
   font-size: 13px;
   letter-spacing: 0.02em;
