@@ -1,0 +1,48 @@
+{
+  "_comment": "대시보드 목록. 새 대시보드는 groups[].dashboards 에 항목을 추가한다. file 경로는 저장소 루트 기준이고, stats/period 의 숫자는 빌드 시 dashboard-cards.json.js 가 이 파일들을 읽어 계산한다(하드코딩 금지). thumbnail 은 home/src/thumbs/ 의 파일명(tools/thumbs.config.json 이 만든다).",
+  "groups": [
+    {
+      "id": "cafe-franchise",
+      "title": "카페 프랜차이즈",
+      "description": "전국 10개 커피 프랜차이즈의 매장 분포, 출점·폐업, 상권 밀집을 인허가 이력으로 살펴봅니다. 같은 데이터를 두 가지 방식으로 구현했습니다.",
+      "dashboards": [
+        {
+          "id": "coffee-echarts",
+          "path": "coffee/",
+          "title": "카페 프랜차이즈 지형도",
+          "variant": "ECharts 버전",
+          "variantNote": "한 페이지에 8개 섹션을 이어 보는 구성이며, ECharts 차트와 갈색 다크 테마를 씁니다.",
+          "description": "브랜드별 매장 수·폐업률, 누적 성장, 지역 분포, 스타벅스 인근 입지까지 한 번에 훑어보는 대시보드",
+          "tags": ["인허가", "프랜차이즈", "지도"],
+          "source": "행정안전부 지방행정 인허가 데이터(식품업종)",
+          "period": {"file": "coffee/src/data/coffee.json", "op": "range", "path": "yearly", "field": "year"},
+          "thumbnail": "coffee-echarts.webp",
+          "thumbnailAlt": "ECharts 버전: 브랜드 10개의 매장 위치를 점으로 찍은 대한민국 지도",
+          "stats": [
+            {"label": "영업 중 매장", "file": "coffee/src/data/coffee.json", "op": "sum", "path": "summary", "field": "active_now", "unit": "곳"},
+            {"label": "분석 브랜드", "file": "coffee/src/data/coffee.json", "op": "count", "path": "brands", "unit": "개"},
+            {"label": "누적 폐업", "file": "coffee/src/data/coffee.json", "op": "sum", "path": "summary", "field": "closed_total", "unit": "곳"}
+          ]
+        },
+        {
+          "id": "coffee-dams",
+          "path": "coffee-dams/",
+          "title": "카페 프랜차이즈 지형도",
+          "variant": "us-dams 스타일",
+          "variantNote": "Observable 공식 예제 us-dams 구성입니다. 전국 개요와 브랜드별 페이지 10개로 나뉘고, deck.gl 지도와 밝은 테마를 씁니다.",
+          "description": "전국 개요에서 시작해 브랜드 하나씩 매장 위치, 시도·시군구 분포, 생존기간을 따로 보는 대시보드",
+          "tags": ["인허가", "프랜차이즈", "지도", "브랜드별"],
+          "source": "행정안전부 지방행정 인허가 데이터(식품업종)",
+          "period": {"file": "coffee-dams/src/data/coffee.json", "op": "range", "path": "yearly", "field": "year"},
+          "thumbnail": "coffee-dams.webp",
+          "thumbnailAlt": "us-dams 스타일: 전국 매장 위치 지도와 브랜드별 페이지 목록",
+          "stats": [
+            {"label": "영업 중 매장", "file": "coffee-dams/src/data/coffee.json", "op": "sum", "path": "summary", "field": "active_now", "unit": "곳"},
+            {"label": "분석 브랜드", "file": "coffee-dams/src/data/coffee.json", "op": "count", "path": "brands", "unit": "개"},
+            {"label": "누적 폐업", "file": "coffee-dams/src/data/coffee.json", "op": "sum", "path": "summary", "field": "closed_total", "unit": "곳"}
+          ]
+        }
+      ]
+    }
+  ]
+}
