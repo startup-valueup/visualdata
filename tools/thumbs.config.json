@@ -1,0 +1,48 @@
+{
+  "_comment": "썸네일 캡처 설정. 새 대시보드를 추가하면 items 에 항목만 추가한다(home/src/data/dashboards.json 의 thumbnail 파일명과 file 을 맞춘다). url 은 합친 사이트(_site) 기준 경로, selector 는 캡처할 영역(maxHeight 로 위쪽만 자를 수 있음), prepare 는 캡처 전 동작(현재 wheel: 지도 확대).",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "outDir": "../home/src/thumbs",
+  "image": {
+    "width": 960,
+    "quality": 78
+  },
+  "server": {
+    "port": 4300
+  },
+  "minColors": 40,
+  "items": [
+    {
+      "id": "coffee-echarts",
+      "url": "/coffee/",
+      "selector": "#chartMap",
+      "waitFor": [
+        "#chartMap canvas"
+      ],
+      "settleMs": 1500,
+      "file": "coffee-echarts.webp",
+      "prepare": [
+        {
+          "type": "wheel",
+          "selector": "#chartMap",
+          "deltaY": -300,
+          "repeat": 2,
+          "delayMs": 400
+        }
+      ]
+    },
+    {
+      "id": "coffee-dams",
+      "url": "/coffee-dams/",
+      "selector": ".grid:has(#map-all)",
+      "maxHeight": 780,
+      "waitFor": [
+        "#map-all canvas"
+      ],
+      "settleMs": 4000,
+      "file": "coffee-dams.webp"
+    }
+  ]
+}

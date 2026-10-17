@@ -1,0 +1,23 @@
+{
+  "name": "site-tools",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "사이트 도구: 세 프로젝트를 배포 구조로 합치고, 대시보드 썸네일을 자동 캡처한다. 대시보드 프로젝트에는 의존하지 않는다.",
+  "scripts": {
+    "site:build": "node compose-site.mjs",
+    "serve": "node serve.mjs",
+    "thumbs": "node thumbs.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.56.1",
+    "sharp": "^0.34.0"
+  },
+  "devDependencies": {
+    "@fontsource/noto-sans-kr": "^5.2.0",
+    "@fontsource/noto-serif-kr": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
